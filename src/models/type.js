@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const typeSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }}, {
         timestamps: true,
         versionKey: false
