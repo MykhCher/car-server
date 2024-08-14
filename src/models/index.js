@@ -21,3 +21,4 @@ mongoose.connect(`mongodb://${HOST}:${PORT}/${DB_NAME}`)
 
 module.exports.Type = Type;
 module.exports.Car = Car;
+module.exports.mongoose = mongoose;
