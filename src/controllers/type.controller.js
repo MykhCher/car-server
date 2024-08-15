@@ -14,6 +14,19 @@ class TypeController {
             .catch(err => next(err));
     }
 
+    getTypeById(req, res, next) {
+
+        const {id} = req.params;
+
+        Type.findById(id)
+            .then(type => {
+                type
+                    ? res.status(200).json(type)
+                    : next(createError(404, `type id=${id} not found`));
+            })
+            .catch(err => next(err));
+    }
+
     createType(req, res, next) {
         Type.create(req.body)
             .then(newType => {

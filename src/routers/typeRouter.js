@@ -12,6 +12,7 @@ typeRouter.route('/')
     .patch(ctrl.updateType);
 
 typeRouter.route('/:id')
+    .get(ctrl.getTypeById)
     .delete(ctrl.deleteType);
 
 
