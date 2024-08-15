@@ -8,7 +8,11 @@ const typeRouter = Router();
 
 typeRouter.route('/')
     .get(paginate, ctrl.getAllTypes)
-    .post(ctrl.createType);
+    .post(ctrl.createType)
+    .patch(ctrl.updateType);
+
+typeRouter.route('/:id')
+    .delete(ctrl.deleteType);
 
 
 module.exports = typeRouter;
