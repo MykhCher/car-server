@@ -1,13 +1,15 @@
 const { mongoose } = require('../models');
 
 module.exports.mongooseErrorHandler = (err, req, res, next) => {
+    
     if (err instanceof mongoose.Error) {
-        res.status(500).send({
+        return res.status(500).send({
             errors: [{
                     title: 'Mongoose Error',
                     detail: err.message
                 }]});
     }
+
     next(err);
 }
 
