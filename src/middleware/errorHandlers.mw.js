@@ -1,3 +1,5 @@
+const yup = require('yup');
+// =====
 const { mongoose } = require('../models');
 
 module.exports.mongooseErrorHandler = (err, req, res, next) => {
@@ -6,6 +8,19 @@ module.exports.mongooseErrorHandler = (err, req, res, next) => {
         return res.status(500).send({
             errors: [{
                     title: 'Mongoose Error',
+                    detail: err.message
+                }]});
+    }
+
+    next(err);
+}
+
+module.exports.yupValidationErrorHandler = (err, req, res, next) => {
+    
+    if (err instanceof yup.ValidationError) {
+        return res.status(500).send({
+            errors: [{
+                    title: 'Yup Validation Error',
                     detail: err.message
                 }]});
     }

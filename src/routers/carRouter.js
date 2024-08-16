@@ -1,14 +1,15 @@
 const { Router } = require('express');
 // =====
 const ctrl = require('../controllers/car.controller');
-const {paginate: {paginate}} = require('../middleware')
+const {paginate: {paginate}, validate: {validateCars}} = require('../middleware')
 
 
 const carRouter = Router();
 
 carRouter.route('/')
     .get(paginate, ctrl.getAllCars)
-    .post(ctrl.createCar);
+    .post(validateCars, ctrl.createCar)
+    .patch(validateCars, ctrl.updateCar);
 
 carRouter.get('/attr', ctrl.getCarByAttr);
 

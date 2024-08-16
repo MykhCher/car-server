@@ -48,6 +48,7 @@ class CarController {
     }
 
     createCar(req, res, next) {
+
         const { body } = req;
 
         if (body.type) {
@@ -74,6 +75,29 @@ class CarController {
             })
             .catch(err => next(err));
     } 
+
+    updateCar(req, res, next) {
+
+        const { body } = req;
+
+        Car.findByIdAndUpdate(body._id, {$set: body})
+            .then(updatedCar => {
+                body.type 
+                    ? Type.findOne({title: body.type}, '_id')
+                        .then(type => {
+                            if (type) {
+                                updatedCar.typeId = type._id;
+                                updatedCar.save();
+                                res.status(202).json(`updated car id=${updatedCar._id}`);
+                            } else {
+                                next(createError(404, `type title=${body.type} not found`))
+                            }
+                        })
+                    : res.status(202).json(`updated car id=${updatedCar._id}`);
+            })
+            .catch(err => next(err));
+
+    }
 }
 
 module.exports = new CarController();
