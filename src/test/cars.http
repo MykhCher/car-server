@@ -1,5 +1,13 @@
-// Get all cars
-GET http://localhost:5000/api/cars HTTP/1.1
+// Get paginated cars
+GET http://localhost:5000/api/cars?page=1&limit=5 HTTP/1.1
+
+###
+// Get car by ID
+GET http://localhost:5000/api/cars/66bcbb753c68b2889e46a048 HTTP/1.1
+
+###
+// Get cars by brand or color
+GET http://localhost:5000/api/cars/attr?brand=Ford&color=red HTTP/1.1
 
 ###
 // Create new car

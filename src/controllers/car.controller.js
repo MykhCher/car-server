@@ -1,10 +1,48 @@
+const createError = require('http-errors');
+// =====
 const { Car, Type } = require('../models');
 
 class CarController {
     getAllCars(req, res, next) {
-        Car.find()
+
+        const { offset, limit } = req.pagination;
+
+        Car.find().populate('typeId', 'title -_id').skip(offset).limit(limit)
             .then(cars => {
                 res.status(200).json(cars);
+            })
+            .catch(err => next(err));
+    }
+
+    getCarById(req ,res, next) {
+
+        const { id } = req.params;
+
+        Car.findById(id).populate('typeId', 'title -_id')
+            .then(car => {
+                car
+                    ? res.status(200).json(car)
+                    : next(createError(404, `car id=${id} not found`));
+            })
+            .catch(err => next(err));
+    }
+
+    getCarByAttr(req, res, next) {
+
+        const {brand, color} = req.query;
+
+        Car.find({
+            brand: brand instanceof Array 
+                ? {$in: brand}
+                : (brand ?? {$ne: '_'}),
+            color: color instanceof Array 
+                ? {$in: color}
+                : (color ?? {$ne: '_'}),
+        })
+            .then(cars => {
+                cars
+                    ? res.status(200).json(cars)
+                    : next(createError(404, `cars not found`));
             })
             .catch(err => next(err));
     }

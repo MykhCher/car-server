@@ -15,7 +15,10 @@ const carSchema = new mongoose.Schema({
     gear_type: String,
     new: Boolean,
     logo: String,
-    typeId: mongoose.ObjectId
+    typeId: {
+        type: mongoose.ObjectId,
+        ref: 'Type'
+    }
 }, {
     timestamps: true,
     versionKey: false
