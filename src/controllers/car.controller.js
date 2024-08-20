@@ -98,6 +98,19 @@ class CarController {
             .catch(err => next(err));
 
     }
+
+    deleteCarById(req, res, next) {
+
+        const { id } = req.params;
+
+        Car.findByIdAndDelete(id)
+            .then(obj => {
+                obj
+                    ? res.status(200).send(`deleted car id=${obj._id}`)
+                    : next(createError(404, `car id=${id} not found`));
+            })
+            .catch(err => next(err));
+    }
 }
 
 module.exports = new CarController();

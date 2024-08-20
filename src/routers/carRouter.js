@@ -14,7 +14,8 @@ carRouter.route('/')
 carRouter.get('/attr', ctrl.getCarByAttr);
 
 carRouter.route('/:id')
-    .get(ctrl.getCarById);
+    .get(ctrl.getCarById)
+    .delete(ctrl.deleteCarById);
 
 
 module.exports = carRouter;
