@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 // =====
 const { Car, Type } = require('../models');
+const { create } = require('../models/type');
 
 class CarController {
     getAllCars(req, res, next) {
@@ -107,6 +108,18 @@ class CarController {
             .then(obj => {
                 obj
                     ? res.status(200).send(`deleted car id=${obj._id}`)
+                    : next(createError(404, `car id=${id} not found`));
+            })
+            .catch(err => next(err));
+    }
+
+    uploadLogo(req, res, next) {
+        const { file: {filename}, params: {id} } = req;
+
+        Car.findByIdAndUpdate(id, {$set: {logo: filename}})
+            .then(obj => {
+                obj
+                    ? res.status(201).send(`updated car id=${obj._id}`)
                     : next(createError(404, `car id=${id} not found`));
             })
             .catch(err => next(err));
